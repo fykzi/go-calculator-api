@@ -48,7 +48,9 @@ func (a *App) RunServer() {
     serverAddr := fmt.Sprintf("%s:%d", a.Config.Host, a.Config.Port)
 
     log.Info(fmt.Sprintf("server starts on %s", serverAddr))
-    http.ListenAndServe(serverAddr, loggedAndErroreddMux)
+    if err := http.ListenAndServe(serverAddr, loggedAndErroreddMux); err != nil {
+        log.Error(err.Error())
+    }
 }
 
 func CalcHandler(w http.ResponseWriter, r *http.Request) {
